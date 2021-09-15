@@ -1,6 +1,7 @@
 package com.napptilus.napptiluspriceapp.events;
 
 import com.napptilus.napptiluspriceapp.dto.PricesCsvDto;
+import com.napptilus.napptiluspriceapp.exception.DatababaseItemNotFoundException;
 import com.napptilus.napptiluspriceapp.model.*;
 import com.napptilus.napptiluspriceapp.service.*;
 import com.napptilus.napptiluspriceapp.util.DatesUtil;
@@ -57,29 +58,32 @@ public class CsvImportEvent {
                 for (PricesCsvDto item : data) {
                     log.info("Importing new item...");
                     log.info(item.toString());
-
-                    try {
-                        Prices prices = new Prices();
-                        prices.setBrand(brandService.findById(item.getBrandId()));
-                        prices.setPriceList(priceListService.findById(item.getPriceList()));
-                        prices.setProduct(productService.findById(item.getProductId()));
-                        prices.setCurrency(currencyService.findById(item.getCurrency()));
-                        prices.setStartDate(datesUtil.parseStringDate(item.getStartDate()));
-                        prices.setEndDate(datesUtil.parseStringDate(item.getEndDate()));
-                        prices.setLastUpdate(datesUtil.parseStringDate(item.getLastUpdate()));
-                        prices.setPriority(item.getPriority());
-                        prices.setPrice(item.getPrice());
-                        prices.setLastUpdateBy(item.getLastUpdateBy());
-                        pricesService.save(prices);
-                    } catch (Exception e) {
-                        log.error("Error importando item...");
-                        log.error(e.getMessage());
-                        throw e;
-                    }
+                    importNewPriceRow(item);
                 }
             }
         } catch (Exception e) {
             log.error("Error importing data from csv file: " + e.getMessage());
+        }
+    }
+
+    private void importNewPriceRow(PricesCsvDto item) throws DatababaseItemNotFoundException {
+        try {
+            Prices prices = new Prices();
+            prices.setBrand(brandService.findById(item.getBrandId()));
+            prices.setPriceList(priceListService.findById(item.getPriceList()));
+            prices.setProduct(productService.findById(item.getProductId()));
+            prices.setCurrency(currencyService.findById(item.getCurrency()));
+            prices.setStartDate(datesUtil.parseStringDate(item.getStartDate()));
+            prices.setEndDate(datesUtil.parseStringDate(item.getEndDate()));
+            prices.setLastUpdate(datesUtil.parseStringDate(item.getLastUpdate()));
+            prices.setPriority(item.getPriority());
+            prices.setPrice(item.getPrice());
+            prices.setLastUpdateBy(item.getLastUpdateBy());
+            pricesService.save(prices);
+        } catch (Exception e) {
+            log.error("Error importando item...");
+            log.error(e.getMessage());
+            throw e;
         }
     }
 

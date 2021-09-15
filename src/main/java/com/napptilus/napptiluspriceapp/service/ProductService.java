@@ -30,11 +30,11 @@ public class ProductService {
     private String resultListIsEmptyExceptionMsg;
 
     @Autowired
-    private ProductRepository ProductRepository;
+    private ProductRepository productRepository;
 
     public Product save(Product newItem) {
         try {
-            return ProductRepository.save(newItem);
+            return productRepository.save(newItem);
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;
@@ -43,7 +43,7 @@ public class ProductService {
 
     public Product findById(Long id) throws DatababaseItemNotFoundException {
         try {
-            return ProductRepository.findById(id).orElseThrow(() -> new DatababaseItemNotFoundException(MessageFormat.format(itemNotFoundExceptionMsg, id.toString())));
+            return productRepository.findById(id).orElseThrow(() -> new DatababaseItemNotFoundException(MessageFormat.format(itemNotFoundExceptionMsg, id.toString())));
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;
@@ -52,7 +52,7 @@ public class ProductService {
 
     public List<Product> findAll() throws DatabaseListEmptyException {
         try {
-            List<Product> list = Objects.requireNonNull(ProductRepository.findAll(), resultListIsNullExceptionMsg);
+            List<Product> list = Objects.requireNonNull(productRepository.findAll(), resultListIsNullExceptionMsg);
             if (list.isEmpty())
                 throw new DatabaseListEmptyException(resultListIsEmptyExceptionMsg);
             else
@@ -65,7 +65,7 @@ public class ProductService {
 
     public void delete(Product item) {
         try {
-            ProductRepository.delete(item);
+            productRepository.delete(item);
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;
@@ -74,7 +74,7 @@ public class ProductService {
 
     public Boolean existById(Long id) {
         try {
-            return ProductRepository.existsById(id);
+            return productRepository.existsById(id);
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;
@@ -83,7 +83,7 @@ public class ProductService {
 
     public List<Product> saveAll(List<Product> list) {
         try {
-            return (List<Product>) ProductRepository.saveAll(list);
+            return (List<Product>) productRepository.saveAll(list);
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;

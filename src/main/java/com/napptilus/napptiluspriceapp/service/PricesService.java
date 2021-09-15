@@ -141,8 +141,7 @@ public class PricesService {
             Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "priority");
             orders.add(order1);
 
-            List<Prices> prices = pricesFilter.query(filters, orders);
-            return prices;
+            return pricesFilter.query(filters, orders);
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;

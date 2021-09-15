@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class PricesRestControllerTest {
+class PricesRestControllerTest {
 
     @Autowired
     private DatesUtil datesUtil;

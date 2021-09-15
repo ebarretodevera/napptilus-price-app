@@ -43,7 +43,7 @@ public class CurrencyService {
 
     public Currency findById(String id) throws DatababaseItemNotFoundException {
         try {
-            return repository.findByCurrencyCode(id).orElseThrow(() -> new DatababaseItemNotFoundException(MessageFormat.format(itemNotFoundExceptionMsg, id.toString())));
+            return repository.findByCurrencyCode(id).orElseThrow(() -> new DatababaseItemNotFoundException(MessageFormat.format(itemNotFoundExceptionMsg, id)));
         } catch (Exception e) {
             log.error(MessageFormat.format(serviceExceptionMsg, this.getClass().getSimpleName(), e.getMessage()));
             throw e;
