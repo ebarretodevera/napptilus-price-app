@@ -28,7 +28,8 @@ public class DiscountService {
     public List<DiscountToApplyDto> getDiscountToApply(String date, Long brandId, Long productId) throws FilterException {
         List<DiscountToApplyDto> pricesResult = new ArrayList<>();
         try {
-            for (Prices price : pricesService.findDiscountsOrderedByPriorityAtCertainDate(datesUtil.parseStringDate(date), brandId, productId)) {
+            List<Prices> res = pricesService.findDiscountsOrderedByPriorityAtCertainDate(datesUtil.parseStringDate(date), brandId, productId);
+            for (Prices price : res) {
                 DiscountToApplyDto discountToApplyDto = new DiscountToApplyDto();
                 discountToApplyDto.setProductId(String.valueOf(price.getProduct().getId()));
                 discountToApplyDto.setBrandId(String.valueOf(price.getBrand().getId()));
